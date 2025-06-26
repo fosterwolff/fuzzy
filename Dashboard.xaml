@@ -1,0 +1,25 @@
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="fuzzy.Dashboard"
+    Title="Dashboard">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Text="Create Event" FontSize="24" HorizontalOptions="Center" />
+
+            <Label Text="Select Date:" />
+            <DatePicker x:Name="EventDatePicker" />
+
+            <Label Text="Select Time:" />
+            <TimePicker x:Name="EventTimePicker" />
+
+            <Label Text="Note:" />
+            <Editor x:Name="NoteEditor" HeightRequest="100" Placeholder="Enter event note..." />
+
+            <Button Text="Create" Clicked="OnCreateEventClicked" />
+
+            <Label x:Name="ResultLabel" TextColor="Green" FontAttributes="Bold" IsVisible="False"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
