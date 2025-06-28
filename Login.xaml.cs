@@ -48,7 +48,7 @@ public partial class Login : ContentPage
 
             if (response.IsSuccessStatusCode)
             {
-                await Shell.Current.GoToAsync(nameof(Dashboard));
+                await Shell.Current.GoToAsync($"{nameof(Menu)}?username={Uri.EscapeDataString(username)}");
             }
             else
             {

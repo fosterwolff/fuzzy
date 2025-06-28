@@ -1,39 +1,72 @@
-using System.Text.Json;
+using System;
+using System.Net.Http.Json;
 
 namespace fuzzy;
 
+[QueryProperty(nameof(Username), "username")]
 public partial class Dashboard : ContentPage
 {
+    public string Username { get; set; }
+
     public Dashboard()
     {
         InitializeComponent();
-        // Initialize to current date/time if you want
-        EventDatePicker.Date = DateTime.Now.Date;
-        EventTimePicker.Time = DateTime.Now.TimeOfDay;
+
+        // Start timer to update clock every second
+        Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+        {
+            TimeLabel.Text = DateTime.Now.ToString("HH:mm:ss");
+            return true; // Repeat
+        });
     }
 
-    private void OnCreateEventClicked(object sender, EventArgs e)
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        // Update welcome message with username
+        WelcomeLabel.Text = $"Welcome, {Username}";
+    }
+
+    private async void OnCreateEventClicked(object sender, EventArgs e)
     {
         var selectedDate = EventDatePicker.Date;
         var selectedTime = EventTimePicker.Time;
         var note = NoteEditor.Text?.Trim() ?? "";
 
-        var eventDateTime = selectedDate.Add(selectedTime);
-
         var newEvent = new
         {
-            date = eventDateTime.ToString("yyyy-MM-dd"),
-            time = eventDateTime.ToString("HH:mm:ss"),
+            username = Username,
+            date = selectedDate.ToString("yyyy-MM-dd"),
+            time = selectedTime.ToString(@"hh\:mm\:ss"),
             note = note
         };
 
-        // Serialize to JSON (for example)
-        string eventJson = JsonSerializer.Serialize(newEvent);
+        try
+        {
+            using HttpClient client = new();
+            client.BaseAddress = new Uri("http://127.0.0.1:5001");
 
-        // For now, show JSON in label and make it visible
-        ResultLabel.Text = $"Created Event JSON:\n{eventJson}";
+            HttpResponseMessage response = await client.PostAsJsonAsync("/create_event", newEvent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string result = await response.Content.ReadAsStringAsync();
+                ResultLabel.Text = $"Event created:\n{result}";
+                ResultLabel.TextColor = Colors.Green;
+            }
+            else
+            {
+                ResultLabel.Text = $"Failed to create event.\n{response.StatusCode}";
+                ResultLabel.TextColor = Colors.Red;
+            }
+        }
+        catch (Exception ex)
+        {
+            ResultLabel.Text = $"Error: {ex.Message}";
+            ResultLabel.TextColor = Colors.Red;
+        }
+
         ResultLabel.IsVisible = true;
-
-        // TODO: send eventJson to your server via HTTP POST later
     }
 }

@@ -1,0 +1,13 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="fuzzy.Menu"
+    Title="Menu">
+
+    <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center" HorizontalOptions="Center">
+
+        <Button Text="Go to Dashboard" Clicked="OnDashboardClicked" />
+        <Button Text="Go to User Info" Clicked="OnUserInfoClicked" />
+
+    </VerticalStackLayout>
+</ContentPage>

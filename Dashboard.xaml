@@ -6,6 +6,10 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label x:Name="TimeLabel" FontSize="20" HorizontalOptions="Center" />
+            <Label x:Name="WelcomeLabel" FontSize="20" HorizontalOptions="Center" />
+
             <Label Text="Create Event" FontSize="24" HorizontalOptions="Center" />
 
             <Label Text="Select Date:" />

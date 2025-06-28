@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    x:Class="fuzzy.UserInfo"
+    Title="User Info">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Organization ID:" />
+            <Entry x:Name="OrganizationIdEntry" Keyboard="Numeric" Placeholder="Enter organization ID" />
+
+            <Label Text="Role:" />
+            <Picker x:Name="RolePicker" Title="Select Role">
+                <Picker.Items>
+                    <x:String>management</x:String>
+                    <x:String>employee</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Label Text="Birthdate:" />
+            <DatePicker x:Name="BirthdatePicker" MaximumDate="{x:Static sys:DateTime.Today}" />
+
+            <Label Text="Full Name:" />
+            <Entry x:Name="FullNameEntry" Placeholder="Enter full name" />
+
+            <Label Text="Phone:" />
+            <Entry x:Name="PhoneEntry" Keyboard="Telephone" Placeholder="Enter phone number" />
+
+            <Button Text="Submit" Clicked="OnSubmitClicked" />
+
+            <Label x:Name="ResultLabel" TextColor="Green" FontAttributes="Bold" IsVisible="False" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
